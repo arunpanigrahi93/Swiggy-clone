@@ -59,7 +59,6 @@ const ProductDetail = () => {
         imageId: info.imageId,
       })
     );
-    navigate("/cart");
     console.Consolelog(item);
   };
 
