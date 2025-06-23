@@ -1,0 +1,8 @@
+.products-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* or space-evenly / space-between */
+  gap: 1rem; /* adds equal spacing between cards */
+  padding: 1rem; /* optional for inner spacing */
+  box-sizing: border-box;
+}
