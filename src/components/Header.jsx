@@ -2,8 +2,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const cartItems = useSelector((state) => state.cart.items);
+
   return (
     <>
       <Navbar bg="primary" data-bs-theme="dark">
@@ -19,7 +22,7 @@ function Header() {
               Contact
             </Nav.Link>
             <Nav.Link as={Link} to="/cart">
-              Cart
+              Cart : {cartItems.length}
             </Nav.Link>
           </Nav>
         </Container>

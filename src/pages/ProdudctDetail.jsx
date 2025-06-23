@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 const ProductDetail = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   const [restaurantInfo, setRestaurantInfo] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     setLoading(true);
@@ -45,6 +48,20 @@ const ProductDetail = () => {
     return (
       <h3 style={{ padding: "20px", textAlign: "center" }}>No data found.</h3>
     );
+
+  const handleAddToCart = (item) => {
+    const info = item.card.info;
+    dispatch(
+      addToCart({
+        id: info.id,
+        name: info.name,
+        price: info.price || info.defaultPrice,
+        imageId: info.imageId,
+      })
+    );
+    navigate("/cart");
+    console.Consolelog(item);
+  };
 
   return (
     <div
@@ -175,7 +192,7 @@ const ProductDetail = () => {
                       height: "40px",
                       alignSelf: "center",
                     }}
-                    onClick={() => console.log("Add to Cart:", info.name)}
+                    onClick={() => handleAddToCart(item)}
                   >
                     Add to Cart
                   </button>
