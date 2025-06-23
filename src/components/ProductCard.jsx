@@ -1,8 +1,14 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-
+import { useNavigate } from "react-router-dom";
 function ProductCard({ restaurant }) {
-  const { name, cuisines, areaName, avgRating, costForTwo } = restaurant;
+  const { id, name, cuisines, areaName, avgRating, costForTwo } = restaurant;
+
+  const navigate = useNavigate();
+
+  const handleView = () => {
+    navigate(`/product/${id}`);
+  };
   return (
     <Card style={{ width: "18rem", margin: "10px" }}>
       <Card.Img
@@ -19,12 +25,7 @@ function ProductCard({ restaurant }) {
           Rating: ⭐ {avgRating} <br />
           {costForTwo}
         </Card.Text>
-        <Button
-          variant="primary"
-          href={restaurant?.cta?.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Button variant="primary" onClick={handleView}>
           View Menu
         </Button>
       </Card.Body>
