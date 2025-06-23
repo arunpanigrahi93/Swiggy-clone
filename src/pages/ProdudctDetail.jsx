@@ -95,40 +95,91 @@ const ProductDetail = () => {
         <ul style={{ listStyle: "none", padding: 0 }}>
           {menuItems.map((item) => {
             const info = item.card.info;
+            const price = info.price
+              ? (info.price / 100).toFixed(2)
+              : (info.defaultPrice / 100).toFixed(2);
+
+            const imageUrl = info.imageId
+              ? `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_100,h_100/${info.imageId}`
+              : null;
+
             return (
               <li
                 key={info.id}
                 style={{
-                  padding: "12px 0",
+                  padding: "16px 0",
                   borderBottom: "1px solid #eee",
                 }}
               >
                 <div
                   style={{
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    color: "#333",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                    gap: "16px",
                   }}
                 >
-                  {info.name}
-                </div>
-                <div
-                  style={{
-                    fontSize: "14px",
-                    color: "#666",
-                    marginBottom: "4px",
-                  }}
-                >
-                  ₹
-                  {info.price
-                    ? (info.price / 100).toFixed(2)
-                    : (info.defaultPrice / 100).toFixed(2)}
-                </div>
-                {info.description && (
-                  <div style={{ fontSize: "13px", color: "#999" }}>
-                    {info.description}
+                  {/* Item Image */}
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt={info.name}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "8px",
+                        objectFit: "cover",
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+
+                  {/* Item Info */}
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        color: "#333",
+                      }}
+                    >
+                      {info.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        color: "#666",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      ₹{price}
+                    </div>
+                    {info.description && (
+                      <div style={{ fontSize: "13px", color: "#999" }}>
+                        {info.description}
+                      </div>
+                    )}
                   </div>
-                )}
+
+                  {/* Add to Cart Button */}
+                  <button
+                    style={{
+                      padding: "6px 12px",
+                      backgroundColor: "#0f8b8d",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      whiteSpace: "nowrap",
+                      height: "40px",
+                      alignSelf: "center",
+                    }}
+                    onClick={() => console.log("Add to Cart:", info.name)}
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </li>
             );
           })}
