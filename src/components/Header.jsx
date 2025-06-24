@@ -11,7 +11,13 @@ function Header() {
   const cartCount = Object.keys(cartItemsObj).length;
 
   return (
-    <Navbar bg="primary" data-bs-theme="dark" expand="lg">
+    <Navbar
+      bg="primary"
+      data-bs-theme="dark"
+      expand="lg"
+      className="sticky-top"
+    >
+      {" "}
       <Container>
         <Navbar.Brand as={Link} to="/">
           Food App
