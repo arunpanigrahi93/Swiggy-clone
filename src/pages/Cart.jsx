@@ -1,13 +1,12 @@
-// src/pages/CartPage.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Table, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { removeFromCart } from "../redux/cartSlice";
+import { removeFromCart, increment, decrement } from "../redux/cartSlice"; // ✅ added
 
 function Cart() {
   const cartItemsObj = useSelector((state) => state.cart.items);
-  const cartItems = Object.values(cartItemsObj); // convert object to array
+  const cartItems = Object.values(cartItemsObj);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -22,6 +21,14 @@ function Cart() {
 
   const handleRemove = (id) => {
     dispatch(removeFromCart(id));
+  };
+
+  const handleInc = (id) => {
+    dispatch(increment(id));
+  };
+
+  const handleDec = (id) => {
+    dispatch(decrement(id));
   };
 
   return (
@@ -47,7 +54,32 @@ function Cart() {
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>₹{(item.price / 100).toFixed(2)}</td>
-                  <td>{item.quantity}</td>
+                  <td>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => handleDec(item.id)}
+                      >
+                        −
+                      </Button>
+                      <span>{item.quantity}</span>
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={() => handleInc(item.id)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </td>
                   <td>₹{((item.price * item.quantity) / 100).toFixed(2)}</td>
                   <td>
                     <Button

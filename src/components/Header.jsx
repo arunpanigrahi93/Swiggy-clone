@@ -6,10 +6,9 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const cartItemsObj = useSelector((state) => state.cart.items);
-  const cartCount = Object.values(cartItemsObj).reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+
+  // ✅ Count unique items only
+  const cartCount = Object.keys(cartItemsObj).length;
 
   return (
     <Navbar bg="primary" data-bs-theme="dark" expand="lg">
