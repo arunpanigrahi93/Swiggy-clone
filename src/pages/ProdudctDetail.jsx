@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/cartSlice";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, increment, decrement } from "../redux/cartSlice";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const cartItems = useSelector((state) => state.cart.items);
+
   const [restaurantInfo, setRestaurantInfo] = useState(null);
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     setLoading(true);
@@ -41,14 +43,6 @@ const ProductDetail = () => {
     fetchData();
   }, [id]);
 
-  if (loading)
-    return <h3 style={{ padding: "20px", textAlign: "center" }}>Loading...</h3>;
-
-  if (!restaurantInfo)
-    return (
-      <h3 style={{ padding: "20px", textAlign: "center" }}>No data found.</h3>
-    );
-
   const handleAddToCart = (item) => {
     const info = item.card.info;
     dispatch(
@@ -59,8 +53,23 @@ const ProductDetail = () => {
         imageId: info.imageId,
       })
     );
-    console.Consolelog(item);
   };
+
+  const handleInc = (id) => {
+    dispatch(increment(id));
+  };
+
+  const handleDec = (id) => {
+    dispatch(decrement(id));
+  };
+
+  if (loading)
+    return <h3 style={{ padding: "20px", textAlign: "center" }}>Loading...</h3>;
+
+  if (!restaurantInfo)
+    return (
+      <h3 style={{ padding: "20px", textAlign: "center" }}>No data found.</h3>
+    );
 
   return (
     <div
@@ -119,6 +128,8 @@ const ProductDetail = () => {
               ? `https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_100,h_100/${info.imageId}`
               : null;
 
+            const quantity = cartItems[info.id]?.quantity || 0;
+
             return (
               <li
                 key={info.id}
@@ -135,7 +146,6 @@ const ProductDetail = () => {
                     gap: "16px",
                   }}
                 >
-                  {/* Item Image */}
                   {imageUrl && (
                     <img
                       src={imageUrl}
@@ -150,7 +160,6 @@ const ProductDetail = () => {
                     />
                   )}
 
-                  {/* Item Info */}
                   <div style={{ flex: 1 }}>
                     <div
                       style={{
@@ -177,24 +186,39 @@ const ProductDetail = () => {
                     )}
                   </div>
 
-                  {/* Add to Cart Button */}
-                  <button
-                    style={{
-                      padding: "6px 12px",
-                      backgroundColor: "#0f8b8d",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      whiteSpace: "nowrap",
-                      height: "40px",
-                      alignSelf: "center",
-                    }}
-                    onClick={() => handleAddToCart(item)}
-                  >
-                    Add to Cart
-                  </button>
+                  {/* Toggle between "Add to Cart" and Counter */}
+                  <div style={{ alignSelf: "center" }}>
+                    {quantity > 0 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <button onClick={() => handleDec(info.id)}>-</button>
+                        <span>{quantity}</span>
+                        <button onClick={() => handleInc(info.id)}>+</button>
+                      </div>
+                    ) : (
+                      <button
+                        style={{
+                          padding: "6px 12px",
+                          backgroundColor: "#0f8b8d",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: "6px",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          whiteSpace: "nowrap",
+                          height: "40px",
+                        }}
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        Add to Cart
+                      </button>
+                    )}
+                  </div>
                 </div>
               </li>
             );

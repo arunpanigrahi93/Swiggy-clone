@@ -5,16 +5,21 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItemsObj = useSelector((state) => state.cart.items);
+  const cartCount = Object.values(cartItemsObj).reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
   return (
-    <>
-      <Navbar bg="primary" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            Navbar
-          </Navbar.Brand>
-          <Nav className="justify-content-end">
+    <Navbar bg="primary" data-bs-theme="dark" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">
+          Food App
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Collapse id="navbar-nav">
+          <Nav className="ms-auto">
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
@@ -22,12 +27,12 @@ function Header() {
               Contact
             </Nav.Link>
             <Nav.Link as={Link} to="/cart">
-              Cart : {cartItems.length}
+              Cart ({cartCount})
             </Nav.Link>
           </Nav>
-        </Container>
-      </Navbar>
-    </>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 

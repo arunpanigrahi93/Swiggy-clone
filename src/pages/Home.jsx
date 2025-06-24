@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import Shimmer from "../components/Shimmer";
+import { useSelector, useDispatch } from "react-redux";
+import { Inc, Dec } from "../redux/counterSlice";
 
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const countValue = useSelector((state) => state.counter.count);
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     setLoading(true);
@@ -32,8 +36,18 @@ const Home = () => {
     fetchData();
   }, []);
 
+  const handleInc = () => {
+    dispatch(Inc());
+  };
+  const handleDec = () => {
+    dispatch(Dec());
+  };
+
   return (
     <div style={{ padding: "20px" }}>
+      <button onClick={handleInc}>+</button>
+      {countValue}
+      <button onClick={handleDec}>-</button>
       {loading ? (
         <Shimmer />
       ) : (

@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { removeFromCart } from "../redux/cartSlice";
 
 function Cart() {
-  const cartItems = useSelector((state) => state.cart.items); // matches your slice
+  const cartItemsObj = useSelector((state) => state.cart.items);
+  const cartItems = Object.values(cartItemsObj); // convert object to array
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
