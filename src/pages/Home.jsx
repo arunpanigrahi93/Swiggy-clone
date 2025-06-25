@@ -5,6 +5,8 @@ import Shimmer from "../components/Shimmer";
 const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -21,6 +23,7 @@ const Home = () => {
 
       console.log("Restaurants:", restaurants);
       setData(restaurants);
+      setFilteredData(restaurants);
     } catch (error) {
       console.error("Error fetching restaurant data:", error);
     } finally {
@@ -32,13 +35,23 @@ const Home = () => {
     fetchData();
   }, []);
 
+  const handleClick = () => {
+    const filterData = data.filter((item) =>
+      item.info.name?.toLowerCase().includes(input.toLowerCase())
+    );
+    setFilteredData(filterData);
+  };
   return (
     <div style={{ padding: "20px" }}>
+      <div style={{ padding: "10px" }}>
+        <input value={input} onChange={(e) => setInput(e.target.value)} />
+        <button onClick={handleClick}>Search</button>
+      </div>
       {loading ? (
         <Shimmer />
       ) : (
         <div className="products-grid">
-          {data.map((restaurant) => (
+          {filteredData.map((restaurant) => (
             <ProductCard
               key={restaurant?.info?.id}
               restaurant={restaurant?.info}
