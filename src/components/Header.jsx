@@ -36,14 +36,8 @@ function Header() {
             <Nav.Link as={Link} to="/" className="text-dark fw-medium">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/search" className="text-dark fw-medium">
-              Search
-            </Nav.Link>
-            <Nav.Link as={Link} to="/offers" className="text-dark fw-medium">
-              Offers
-            </Nav.Link>
-            <Nav.Link as={Link} to="/help" className="text-dark fw-medium">
-              Help
+            <Nav.Link as={Link} to="/contact" className="text-dark fw-medium">
+              Contact
             </Nav.Link>
             <Nav.Link as={Link} to="/cart" className="text-dark fw-medium">
               🛒 Cart ({cartCount})
