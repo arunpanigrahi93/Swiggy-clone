@@ -1,16 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
 function ProductCard({ restaurant }) {
-  const {
-    id,
-    name,
-    cloudinaryImageId,
-    cuisines,
-    areaName,
-    avgRating,
-    costForTwo,
-    sla,
-  } = restaurant;
+  const { id, name, cloudinaryImageId, cuisines, avgRating, costForTwo, sla } =
+    restaurant;
 
   const navigate = useNavigate();
 
